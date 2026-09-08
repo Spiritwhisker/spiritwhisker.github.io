@@ -1,0 +1,79 @@
+:root {
+  --blackish: #1d2a2e;
+  --grayish: #607174;
+  --paper: #f6f3ed;
+  --accent: #e8774e;
+  --accent-dark: #b84f2e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--blackish);
+  background: radial-gradient(circle at top left, #fffaf0, var(--paper) 55%, #dce8e2);
+  font-family: Georgia, "Calibri", serif;
+}
+
+.app {
+  width: min(100%, 620px);
+  padding: clamp(32px, 8vw, 72px);
+  border: 1px solid rgba(29, 42, 46, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 24px 60px rgba(29, 42, 46, 0.12);
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: var(--accent-dark);
+  font: 700 0.78rem/1.2 Arial, sans-serif;
+  letter-spacing: 0.14em;
+}
+
+h1 {
+  max-width: 8ch;
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.intro {
+  max-width: 36ch;
+  margin: 28px 0;
+  color: var(--grayish);
+  font: 1.12rem/1.6 Arial, sans-serif;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 22px;
+  color: #fff;
+  background: var(--accent);
+  cursor: pointer;
+  font: 700 1rem Arial, sans-serif;
+}
+
+button:hover {
+  background: radial-gradient(circle at center, var(--accent), var(--accent-dark) 22%, var(--accent) 50%, var(--accent-dark) 78%, var(--accent));
+}
+
+button:focus-visible {
+  outline: 3px solid var(--blackish);
+  outline-offset: 4px;
+}
+
+.message {
+  min-height: 1.5em;
+  margin: 22px 0 0;
+  color: var(--accent-dark);
+  font: 700 1rem Arial, sans-serif;
+}
