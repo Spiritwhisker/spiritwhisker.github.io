@@ -1,9 +1,10 @@
-# Simple App Template
+# This app
 
-A simple template so far :/
+This app haven't decided what to do yet...
 
-## Files :)
+## Files
 
 - `index.html`
+-
 - `style.css`
 - `script.js`
