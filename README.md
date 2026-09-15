@@ -1,6 +1,7 @@
 # This app
 
 This app haven't decided what to do yet...
+Grammar issues persist.
 
 ## Files
 
