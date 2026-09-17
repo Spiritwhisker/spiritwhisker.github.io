@@ -8,3 +8,6 @@ document.getElementById("startHere").addEventListener("click", function() {
 document.getElementById("theWeirdAndWorryingAboutUsButton").addEventListener("click", function() {
     window.location.href = "aboutUs.html";
 });
+
+var dayScore = 50;
+document.getElementById("dailyScore").textContent = dayScore

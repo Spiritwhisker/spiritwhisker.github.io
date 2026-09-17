@@ -1,7 +1,7 @@
 # This app
 
-This app haven't decided what to do yet...
-Grammar issues persist.
+More Time is Needed (or not)
+This is so you don't waste too much time
 
 ## Files
 
