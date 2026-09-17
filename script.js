@@ -10,4 +10,4 @@ document.getElementById("theWeirdAndWorryingAboutUsButton").addEventListener("cl
 });
 
 var dayScore = 50;
-document.getElementById("dailyScore").textContent = dayScore
+document.getElementById("dailyScore").textContent = dayScore;
