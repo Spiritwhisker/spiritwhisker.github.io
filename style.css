@@ -18,7 +18,7 @@ body {
   padding: 24px;
   color: var(--blackish);
   background: radial-gradient(circle at top left, #fffaf0, var(--paper) 55%, #dce8e2);
-  font-family: Georgia, "Calibri", serif;
+  font-family: Arial, "Verdana", sans-serif;
 }
 
 .app {
