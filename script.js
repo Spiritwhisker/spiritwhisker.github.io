@@ -9,5 +9,5 @@ document.getElementById("theWeirdAndWorryingAboutUsButton").addEventListener("cl
     window.location.href = "aboutUs.html";
 });
 
-var dayScore = 50;
+let dayScore = 50;
 document.getElementById("dailyScore").textContent = dayScore;
