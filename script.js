@@ -1,13 +1,17 @@
 const startHere = document.querySelector("#startHere");
-const message = document.querySelector("#message");
+const aboutUsButton = document.querySelector("#theWeirdAndWorryingAboutUsButton");
+const dailyScore = document.querySelector("#dailyScore");
 
-document.getElementById("startHere").addEventListener("click", function() {
-    window.location.href = "homepage.html";
+// Each page has different elements, so only attach a listener when the element exists.
+startHere?.addEventListener("click", () => {
+  window.location.href = "homepage.html";
 });
 
-document.getElementById("theWeirdAndWorryingAboutUsButton").addEventListener("click", function() {
-    window.location.href = "aboutUs.html";
+aboutUsButton?.addEventListener("click", () => {
+  window.location.href = "aboutUs.html";
 });
 
-let dayScore = 50;
-document.getElementById("dailyScore").textContent = dayScore;
+const dayScore = 50;
+if (dailyScore) {
+  dailyScore.textContent = String(dayScore);
+}

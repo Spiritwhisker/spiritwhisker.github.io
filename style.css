@@ -22,8 +22,9 @@ body {
 }
 
 .app {
-  width: min(100%, 620px);
-  padding: clamp(32px, 8vw, 72px);
+  width: min(100%, 800px);
+  min-height: 420px;
+  padding: clamp(40px, 10vw, 96px);
   border: 1px solid rgba(29, 42, 46, 0.12);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.58);
@@ -78,4 +79,4 @@ button:focus-visible {
   font: 700 1rem Arial, sans-serif;
 }
 
-/* Much of this CSS is AI generated, and then I changed some of it so I like it better.*/
+/* Much of this CSS is AI generated, and then I changed some of it so I like it better. */
