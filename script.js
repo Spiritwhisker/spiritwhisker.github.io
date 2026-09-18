@@ -11,7 +11,7 @@ aboutUsButton?.addEventListener("click", () => {
   window.location.href = "aboutUs.html";
 });
 
-const dayScore = 50;
+let dayScore = 50;
 if (dailyScore) {
   dailyScore.textContent = String(dayScore);
 }
