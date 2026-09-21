@@ -5,36 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Please stop wasting your time.</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-      button {
-        position: relative;
-      }
-
-      button::after {
-        content: "";
-        position: absolute;
-        inset: -0.4rem;
-        border: 2px solid currentColor;
-        border-radius: inherit;
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      button.is-pressed::after {
-        animation: button-ring 900ms ease-out forwards;
-      }
-
-      @keyframes button-ring {
-        from {
-          opacity: 0.9;
-          transform: scale(1);
-        }
-        to {
-          opacity: 0;
-          transform: scale(1.5);
-        }
-      }
-    </style>
   </head>
   <body>
     <main class="app">
