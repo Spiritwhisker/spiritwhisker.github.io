@@ -18,17 +18,15 @@
 		<div class="timer" id="timer" aria-live="polite">
 			<strong id="display">25:00</strong>
 		</div>
-		<div class="actions"><button class="primary" id="start">Start</button><button id="reset">Reset</button></div>
+		<div class="actions"><button class="primary" id="start">Start</button></div>
 	</main>
 	<script>
 		const display = document.querySelector('#display');
-		const start = document.querySelector('#start'), reset = document.querySelector('#reset');
 		let seconds = 1500, running = false, interval;
-		function render() { const min = Math.floor(seconds / 60), sec = seconds % 60; display.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; document.title = `${display.textContent} · Timer`; }
+		function render() { const min = Math.floor(seconds / 60), sec = seconds % 60; display.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; document.title = `${display.textContent} · Timer`; } <!--Huh?-->
 		function finish() { running = false; clearInterval(interval); start.textContent = 'Start'; }
 		function tick() { if (--seconds <= 0) { seconds = 0; render(); finish(); return; } render(); }
 		start.onclick = () => { if (running) { running = false; clearInterval(interval); start.textContent = 'Resume'; } else { running = true; start.textContent = 'Pause'; interval = setInterval(tick, 1000); } };
-		reset.onclick = () => { clearInterval(interval); running = false; seconds = 1500; start.textContent = 'Start'; render(); };
 		render();
 	</script>
 </body>
