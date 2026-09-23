@@ -26,7 +26,8 @@ style.textContent = `
     to { opacity: 0; transform: translate(-50%, -50%) scale(12); }
   }
 `;
-document.head.appendChild(style);
+document.head.appendChild(style); //Never understood why JavaScript forces us to do this
+//Not-so-bad ripple effect.
 
 document.querySelectorAll("button").forEach((button) => {
   button.addEventListener("click", () => {

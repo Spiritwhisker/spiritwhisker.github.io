@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="style.css">
 	<style>
 		* { box-sizing: border-box; }
-		.timer { display: grid; place-items: center; margin: 2rem auto; }
+		.timer { display: grid; place-items: center; margin: 1rem auto; }
 		#display { font-size: 4rem; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
 		.actions { display: flex; justify-content: center; gap: .75rem; }
 	</style>
@@ -24,7 +24,7 @@
 		const display = document.querySelector('#display');
 		let seconds = 1500, running = false, interval;
 		function render() { const min = Math.floor(seconds / 60), sec = seconds % 60; display.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; document.title = `${display.textContent} · Timer`; } <!--Huh?-->
-		function finish() { running = false; clearInterval(interval); start.textContent = 'Start'; }
+		function finish() { running = false; clearInterval(interval); start.textContent = 'Start'; window.location.href = 'review.html'; }
 		function tick() { if (--seconds <= 0) { seconds = 0; render(); finish(); return; } render(); }
 		start.onclick = () => { if (running) { running = false; clearInterval(interval); start.textContent = 'Resume'; } else { running = true; start.textContent = 'Pause'; interval = setInterval(tick, 1000); } };
 		render();
