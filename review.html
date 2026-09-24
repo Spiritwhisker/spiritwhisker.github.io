@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work Review</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f6f3ed;
+      }
+
+      .review-card {
+        width: min(92vw, 650px);
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(29, 42, 46, 0.12);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 18px 40px rgba(29, 42, 46, 0.08);
+      }
+
+      .rating-list {
+        display: grid;
+        gap: 0.75rem;
+        margin: 1rem 0 1.5rem;
+      }
+
+      .rating-option {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        border: 1px solid rgba(29, 42, 46, 0.15);
+        border-radius: 12px;
+        background: #fff;
+        padding: 0.9rem 1rem;
+      }
+
+      .rating-option input {
+        transform: scale(1.2);
+      }
+
+      .review-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .message {
+        margin-top: 1rem;
+        min-height: 1.5em;
+        color: #b84f2e;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="review-card">
+      <p class="eyebrow">WORK SESSION COMPLETE</p>
+      <h1>How did that work go?</h1>
+      <p class="intro">Take a moment to reflect on the session. Your daily score will adjust based on your rating.</p>
+
+      <form id="reviewForm">
+        <div class="rating-list">
+          <label class="rating-option">
+            <input type="radio" name="quality" value="10" required />
+            <span><strong>Excellent</strong> (+10)</span>
+          </label>
+
+          <label class="rating-option">
+            <input type="radio" name="quality" value="5" />
+            <span><strong>Good</strong> (+5)</span>
+          </label>
+
+          <label class="rating-option">
+            <input type="radio" name="quality" value="0" />
+            <span><strong>Okay</strong> (+0)</span>
+          </label>
+
+          <label class="rating-option">
+            <input type="radio" name="quality" value="-5" />
+            <span><strong>Needs improvement</strong> (-5)</span>
+          </label>
+
+          <label class="rating-option">
+            <input type="radio" name="quality" value="-10" />
+            <span><strong>Not productive</strong> (-10)</span>
+          </label>
+        </div>
+
+        <div class="review-actions">
+          <button type="submit">Save reflection</button>
+          <button type="button" id="skipReview">Skip</button>
+        </div>
+
+        <p id="reviewMessage" class="message" aria-live="polite"></p>
+      </form>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      const reviewForm = document.querySelector("#reviewForm");
+      const reviewMessage = document.querySelector("#reviewMessage");
+      const skipReview = document.querySelector("#skipReview");
+
+      reviewForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const selectedValue = Number(new FormData(reviewForm).get("quality"));
+        const nextScore = updateDailyScore(selectedValue);
+
+        reviewMessage.textContent = `Saved. Your daily score is now ${nextScore}/100.`;
+        setTimeout(() => {
+          window.location.href = "homepage.html";
+        }, 800);
+      });
+
+      skipReview.addEventListener("click", () => {
+        window.location.href = "homepage.html";
+      });
+    </script>
+  </body>
+</html>
