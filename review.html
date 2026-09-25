@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Work Review</title>
+    <title>Review</title>
     <link rel="stylesheet" href="style.css" />
     <style>
       body {
@@ -20,8 +20,8 @@
         background: rgba(255, 255, 255, 0.8);
         border: 1px solid rgba(29, 42, 46, 0.12);
         border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 18px 40px rgba(29, 42, 46, 0.08);
+        padding: 1rem; /* MAKING WAY TOO MUCH PADDING */
+        box-shadow: 0 18px 40px rgba(29, 42, 46, 0.08); /* Looks cool but not very useful */
       }
 
       .rating-list {
@@ -103,6 +103,33 @@
 
     <script src="script.js"></script>
     <script>
+      const timerStorageKeys = [
+        "sessionDuration",
+        "timerDuration",
+        "elapsedTime",
+        "workSessionDuration"
+      ];
+
+      const getTimerDuration = () => {
+        for (const key of timerStorageKeys) {
+          const value = sessionStorage.getItem(key) ?? localStorage.getItem(key);
+          if (value === null) continue;
+
+          const duration = Number(value);
+          if (Number.isFinite(duration) && duration > 0) {
+            return duration > 100000 ? duration / 1000 : duration;
+          }
+        }
+        return 0;
+      };
+
+      const durationSeconds = getTimerDuration();
+      if (!durationSeconds) {
+        document.body.innerHTML = "<p>This page is only available after completing a timer session.</p>";
+        throw new Error("A completed timer session is required");
+      }
+
+      const sessionMinutes = Math.max(1, Math.ceil(durationSeconds / 60));
       const reviewForm = document.querySelector("#reviewForm");
       const reviewMessage = document.querySelector("#reviewMessage");
       const skipReview = document.querySelector("#skipReview");
@@ -111,7 +138,7 @@
         event.preventDefault();
 
         const selectedValue = Number(new FormData(reviewForm).get("quality"));
-        const nextScore = updateDailyScore(selectedValue);
+        const nextScore = updateDailyScore(selectedValue * sessionMinutes);
 
         reviewMessage.textContent = `Saved. Your daily score is now ${nextScore}/100.`;
         setTimeout(() => {
