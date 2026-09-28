@@ -11,8 +11,44 @@
             <h1><span id="dailyScore"></span></h1>
             <p><span id="dailyQualityText">No daily quality score yet.</span></p>
             <button id="testAddTen" type="button">Since i'm still testing, here's a button.</button>
+            <button id="gameLink" type="button" hidden onclick="location.href='game.html'">Open game</button>
         </main>
         
         <script src="script.js"></script>
+        <script>
+            (() => {
+                const scoreElement = document.getElementById("dailyScore");
+                const qualityElement = document.getElementById("dailyQualityText");
+                const gameButton = document.getElementById("gameLink");
+
+                function updateQuality() {
+                    const text = scoreElement.textContent.trim();
+                    const score = Number(text);
+
+                    if (text === "" || !Number.isFinite(score)) {
+                        qualityElement.textContent = "No data (50)";
+                        gameButton.hidden = true;
+                        return;
+                    }
+
+                    if (score > 80) qualityElement.textContent = "Overproductive";
+                    else if (score >= 70) qualityElement.textContent = "Very productive";
+                    else if (score >= 60) qualityElement.textContent = "Productive";
+                    else if (score >= 50) qualityElement.textContent = "Balanced";
+                    else if (score >= 40) qualityElement.textContent = "A little underactive";
+                    else if (score >= 20) qualityElement.textContent = "Underactive";
+                    else qualityElement.textContent = "Very underactive";
+
+                    gameButton.hidden = score <= 80;
+                }
+
+                new MutationObserver(updateQuality).observe(scoreElement, {
+                    childList: true,
+                    characterData: true,
+                    subtree: true
+                });
+                updateQuality();
+            })();
+        </script>
     </body>
 </html>
