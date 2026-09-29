@@ -31,15 +31,15 @@
                         return;
                     }
 
-                    if (score > 80) qualityElement.textContent = "Overproductive";
+                    if (score > 80) qualityElement.textContent = "Overproductive! You are doing very berry well.";
                     else if (score >= 70) qualityElement.textContent = "Very productive";
                     else if (score >= 60) qualityElement.textContent = "Productive";
                     else if (score >= 50) qualityElement.textContent = "Balanced";
                     else if (score >= 40) qualityElement.textContent = "A little underactive";
                     else if (score >= 20) qualityElement.textContent = "Underactive";
-                    else qualityElement.textContent = "Very underactive";
+                    else qualityElement.textContent = "Very underactive, do better :/";
 
-                    gameButton.hidden = score <= 80;
+                    gameButton.hidden = score <= 70;
                 }
 
                 new MutationObserver(updateQuality).observe(scoreElement, {
