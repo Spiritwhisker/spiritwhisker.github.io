@@ -5,6 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Stop Wasting all of your time Homepage</title>
         <link rel="stylesheet" href="style.css" />
+        <style>
+            #workTimerMenu { margin-top: 1rem; padding: 1rem; border: 1px solid currentColor; border-radius: 0.5rem; }
+            #workTimerDisplay { font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+        </style>
     </head>
     <body>
         <main class="app">
@@ -12,6 +16,13 @@
             <p><span id="dailyQualityText">No daily quality score yet.</span></p>
             <button id="testAddTen" type="button">Since i'm still testing, here's a button.</button>
             <button id="gameLink" type="button" hidden onclick="location.href='game.html'">Open game</button>
+            <button id="openWorkTimer" type="button" aria-expanded="false" aria-controls="workTimerMenu">Work timer</button>
+            <section id="workTimerMenu" aria-label="Work timer menu" hidden>
+                <label for="workDuration">Work duration (in minutes)</label>
+                <input id="workDuration" type="number" min="1" max="480" value="25" />
+                <button id="startWorkTimer" type="button">Start Timer</button>
+                <p id="workTimerDisplay" role="timer" aria-live="polite">25:00</p> <!--"Polite" text :/-->
+            </section>
         </main>
         
         <script src="script.js"></script>
@@ -48,6 +59,37 @@
                     subtree: true
                 });
                 updateQuality();
+            })();
+
+            (() => {
+                const openButton = document.getElementById("openWorkTimer");
+                const menu = document.getElementById("workTimerMenu");
+                const durationInput = document.getElementById("workDuration");
+                const startButton = document.getElementById("startWorkTimer");
+                const display = document.getElementById("workTimerDisplay");
+                let intervalId;
+
+                openButton.addEventListener("click", () => {
+                    menu.hidden = !menu.hidden;
+                    openButton.setAttribute("aria-expanded", String(!menu.hidden));
+                });
+
+                startButton.addEventListener("click", () => {
+                    clearInterval(intervalId);
+                    let seconds = Math.max(1, Math.min(480, Number(durationInput.value) || 25)) * 60;
+                    const render = () => {
+                        display.textContent = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+                    };
+                    render();
+                    intervalId = setInterval(() => {
+                        seconds -= 1;
+                        render();
+                        if (seconds <= 0) {
+                            clearInterval(intervalId);
+                            display.textContent = "Work session complete!";
+                        }
+                    }, 1000);
+                });
             })();
         </script>
     </body>
