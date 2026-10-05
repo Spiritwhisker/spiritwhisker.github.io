@@ -8,18 +8,61 @@
   </head>
   <body>
     <main class="app">
-      <p class="eyebrow">Stop wasting your time v0.3.1 (so I know when it updates)</p>
+      <p class="eyebrow">Stop wasting your time v0.3.2 (so I know when it updates)</p>
       <h1>hehehe</h1>
       <p class="intro">
         Stop wasting your time...<br />Life is finite.
       </p>
 
       <button id="startHere" type="button">Start Here :)</button>
-      <button id="theWeirdAndWorryingAboutUsButton" type="button">About Us</button>
+      <section class="session-history" aria-labelledby="sessionHistoryTitle">
+        <h2 id="sessionHistoryTitle">Your sessions today</h2>
+        <ul id="todaySessions"></ul>
+        <p id="noSessions">No sessions yet today.</p>
+      </section>
     </main>
 <!--So... umm... hi! If you are reading this, which you are, that means you are a human and may or may not need this app!-->
     <script src="script.js"></script>
     <script>
+      const sessionKey = "stopWastingTimeSessions";
+      const sessionsList = document.getElementById("todaySessions");
+      const noSessions = document.getElementById("noSessions");
+
+      function getTodaySessions() {
+        const now = new Date();
+        const todayKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+        try {
+          const saved = JSON.parse(localStorage.getItem(sessionKey) || "{}");
+          return saved.date === todayKey && Array.isArray(saved.sessions) ? saved.sessions : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function renderSessions() {
+        const sessions = getTodaySessions();
+        sessionsList.replaceChildren();
+        sessions.forEach((session) => {
+          const item = document.createElement("li");
+          item.textContent = `Started at ${new Date(session).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+          sessionsList.appendChild(item);
+        });
+        noSessions.hidden = sessions.length > 0;
+      }
+
+      document.getElementById("startHere").addEventListener("click", () => {
+        const now = new Date();
+        const todayKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+        const sessions = getTodaySessions();
+        sessions.push(now.toISOString());
+        try {
+          localStorage.setItem(sessionKey, JSON.stringify({ date: todayKey, sessions }));
+        } catch {}
+        renderSessions();
+      });
+
+      renderSessions();
+
       document.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", () => {
           button.classList.remove("is-pressed");
