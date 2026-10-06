@@ -8,7 +8,7 @@
   </head>
   <body>
     <main class="app">
-      <p class="eyebrow">Stop wasting your time v0.3.2 (so I know when it updates)</p>
+      <p class="eyebrow">Stop wasting your time v0.3.3 (so I know when it updates)</p>
       <h1>hehehe</h1>
       <p class="intro">
         Stop wasting your time...<br />Life is finite.
@@ -21,7 +21,7 @@
         <p id="noSessions">No sessions yet today.</p>
       </section>
     </main>
-<!--So... umm... hi! If you are reading this, which you are, that means you are a human and may or may not need this app!-->
+<!-- So... umm... hi! If you are reading this, which you are, that means you are a human and may or may not need this app! -->
     <script src="script.js"></script>
     <script>
       const sessionKey = "stopWastingTimeSessions";
@@ -37,7 +37,7 @@
         } catch {
           return [];
         }
-      }
+      } // I have no idea what this means
 
       function renderSessions() {
         const sessions = getTodaySessions();
@@ -48,7 +48,7 @@
           sessionsList.appendChild(item);
         });
         noSessions.hidden = sessions.length > 0;
-      }
+      } // Nor this.
 
       document.getElementById("startHere").addEventListener("click", () => {
         const now = new Date();
@@ -61,7 +61,7 @@
         renderSessions();
       });
 
-      renderSessions();
+      renderSessions(); // 
 
       document.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", () => {

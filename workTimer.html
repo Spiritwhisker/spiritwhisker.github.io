@@ -3,18 +3,18 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Work Timer</title>
+	<title>Work Timer! Focus Well Now!</title>
 	<link rel="stylesheet" href="style.css">
 	<style>
 		* { box-sizing: border-box; }
-		.timer { display: grid; place-items: center; margin: 1rem auto; }
-		#display { font-size: 4rem; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
-		.actions { display: flex; justify-content: center; gap: .75rem; }
+		.timer {display: grid; place-items: center; margin: 1rem auto;}
+		#display {font-size: 4rem; font-variant-numeric: tabular-nums; letter-spacing: 0.04em;}
+		.actions {display: flex; justify-content: center; gap: 0.75rem;}
 	</style>
 </head>
 <body>
 	<main>
-		<h4>Work Timer! Now focus well to get a dino game.</h4>
+		<h4>Work Timer! Now focus well to get a dino game.</h4> <!-- Yay! -->
 		<div class="timer" id="timer" aria-live="polite">
 			<strong id="display"><input type="number" min="0" max="90">:<input type="number" min="0" max="59"></strong> <!--Please don't try entering more than 90! You need a break in between.-->
 		</div>
@@ -25,7 +25,9 @@
 		let seconds = 1500, running = false, interval;
 		function render() { const min = Math.floor(seconds / 60), sec = seconds % 60; display.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; document.title = `${display.textContent} · Timer`; } <!--Huh?-->
 		function finish() { running = false; clearInterval(interval); start.textContent = 'Start'; window.location.href = 'review.html'; }
-		function tick() { if (--seconds <= 0) { seconds = 0; render(); finish(); return; } render(); }
+		function tick() { if
+			(--seconds <= 0) { seconds = 0; render(); finish(); return; } render(); // NOTE 2 SELF: PLEASE PLEASE STOP REMOVING THE render() THING
+		}
 		start.onclick = () => { if (running) { running = false; clearInterval(interval); start.textContent = 'Resume'; } else { running = true; start.textContent = 'Pause'; interval = setInterval(tick, 1000); } };
 		render();
 	</script>

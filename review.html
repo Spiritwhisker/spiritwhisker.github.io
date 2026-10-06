@@ -125,9 +125,8 @@
 
       const durationSeconds = getTimerDuration();
       if (!durationSeconds) {
-        document.body.innerHTML = "<p>This page is only available after completing a timer session.</p>";
-        throw new Error("A completed timer session is required");
-      }
+        document.body.innerHTML = "<p>This page is only available after completing a timer session! Sorry :(</p>";
+        throw new Error("A completed timer session is required! I probably already told you.");}
 
       const sessionMinutes = Math.max(1, Math.ceil(durationSeconds / 60));
       const reviewForm = document.querySelector("#reviewForm");

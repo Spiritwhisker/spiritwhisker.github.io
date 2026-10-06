@@ -6,11 +6,12 @@ const testAddTen = document.querySelector("#testAddTen")
 
 const style = document.createElement("style");
 style.textContent = `
-  button { position: relative; overflow: hidden; background-image: none !important; }
-  button::after { content: ""; position: absolute; inset: 50%; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; opacity: 0; transform: translate(-50%, -50%) scale(1); pointer-events: none; }
-  button.ripple::after { animation: button-ripple .45s ease-out; }
-  @keyframes button-ripple { from { opacity: .45; transform: translate(-50%, -50%) scale(1); } to { opacity: 0; transform: translate(-50%, -50%) scale(12); } }
-`;
+  button { position: relative; overflow: hidden; background-image: none !important;}
+  button::after { content: ""; position: absolute; inset: 50%; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; opacity: 0; transform: translate(-50%, -50%) scale(1);}
+  button.ripple::after { animation: button-ripple .45s ease-out;}
+  @keyframes button-ripple { from { opacity: .45; transform: translate(-50%, -50%) scale(1);} to { opacity: 0; transform: translate(-50%, -50%) scale(12);}}
+`; // JavaScript is weird.
+
 document.head.appendChild(style);
 
 document.querySelectorAll("button").forEach((button) => {
@@ -18,8 +19,7 @@ document.querySelectorAll("button").forEach((button) => {
     button.classList.remove("ripple");
     void button.offsetWidth;
     button.classList.add("ripple");
-  });
-});
+  });});
 
 startHere?.addEventListener("click", () => {
   window.location.href = "homepage.html";
@@ -38,7 +38,7 @@ let dayQualityText = "Null (No Data, sorry &#x2639;&#xFE0F;)";
 if (dailyScore > 75) {
   dayQualityText = "Good Job Today!"
 }
-//Meow
+// Meow
 
 
 testAddTen?.addEventListener("click", () => {
