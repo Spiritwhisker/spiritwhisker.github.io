@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<<<<<<< HEAD
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,66 +32,172 @@
                 const scoreElement = document.getElementById("dailyScore");
                 const qualityElement = document.getElementById("dailyQualityText");
                 const gameButton = document.getElementById("gameLink");
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stop Wasting Your Time</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <p class="eyebrow">Daily progress</p>
+        <h1><span id="dailyScore">50</span></h1>
+      </header>
+>>>>>>> 028071e69e80da326e076823a16423f07ee92105
 
-                function updateQuality() {
-                    const text = scoreElement.textContent.trim();
-                    const score = Number(text);
+      <section class="status-card" aria-live="polite">
+        <div class="status-score" id="scoreDisplay">50</div>
+        <p class="status-text" id="dailyQualityText">Balanced</p>
+      </section>
 
-                    if (text === "" || !Number.isFinite(score)) {
-                        qualityElement.textContent = "No data (50)";
-                        gameButton.hidden = true;
-                        return;
-                    }
+      <section class="timer-card" aria-label="Work and rest timer">
+        <div class="timer-header">
+          <h2>Focus timer</h2>
+        </div>
 
-                    if (score > 80) qualityElement.textContent = "Overproductive! You are doing very berry well.";
-                    else if (score >= 70) qualityElement.textContent = "Very productive";
-                    else if (score >= 60) qualityElement.textContent = "Productive";
-                    else if (score >= 50) qualityElement.textContent = "Balanced";
-                    else if (score >= 40) qualityElement.textContent = "A little underactive";
-                    else if (score >= 20) qualityElement.textContent = "Underactive";
-                    else qualityElement.textContent = "Very underactive, do better :/";
+        <div class="timer-grid">
+          <label class="field">
+            <span>Work</span>
+            <input id="workDuration" type="number" min="1" max="480" value="25" />
+          </label>
 
-                    gameButton.hidden = score <= 70;
-                }
+          <label class="field">
+            <span>Rest</span>
+            <input id="restDuration" type="number" min="1" max="60" value="5" />
+          </label>
+        </div>
 
-                new MutationObserver(updateQuality).observe(scoreElement, {
-                    childList: true,
-                    characterData: true,
-                    subtree: true
-                });
-                updateQuality();
-            })();
+        <div class="timer-display" id="workTimerDisplay" role="timer" aria-live="polite">25:00</div>
 
-            (() => {
-                const openButton = document.getElementById("openWorkTimer");
-                const menu = document.getElementById("workTimerMenu");
-                const durationInput = document.getElementById("workDuration");
-                const startButton = document.getElementById("startWorkTimer");
-                const display = document.getElementById("workTimerDisplay");
-                let intervalId;
+        <div class="button-row">
+          <button id="startWorkTimer" type="button">Start work</button>
+          <button id="startRestTimer" type="button" class="secondary">Start rest</button>
+        </div>
+      </section>
 
-                openButton.addEventListener("click", () => {
-                    menu.hidden = !menu.hidden;
-                    openButton.setAttribute("aria-expanded", String(!menu.hidden));
-                });
+      <section class="history-card" aria-labelledby="sessionHistoryTitle">
+        <h2 id="sessionHistoryTitle">Your sessions today</h2>
+        <ul id="todaySessions"></ul>
+        <p id="noSessions">No sessions yet today.</p>
+      </section>
+    </main>
 
-                startButton.addEventListener("click", () => {
-                    clearInterval(intervalId);
-                    let seconds = Math.max(1, Math.min(480, Number(durationInput.value) || 25)) * 60;
-                    const render = () => {
-                        display.textContent = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
-                    };
-                    render();
-                    intervalId = setInterval(() => {
-                        seconds -= 1;
-                        render();
-                        if (seconds <= 0) {
-                            clearInterval(intervalId);
-                            display.textContent = "Work session complete!";
-                        }
-                    }, 1000);
-                });
-            })();
-        </script>
-    </body>
+    <script src="script.js"></script>
+    <script>
+      (() => {
+        const sessionKey = "stopWastingYourTimeBecauseYouAreSoBadSessions";
+        const sessionsList = document.getElementById("todaySessions");
+        const noSessions = document.getElementById("noSessions");
+
+        function getTodaySessions() {
+          const now = new Date();
+          const todayKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+          try {
+            const saved = JSON.parse(localStorage.getItem(sessionKey) || "{}");
+            return saved.date === todayKey && Array.isArray(saved.sessions) ? saved.sessions : [];
+          } catch {
+            return [];
+          }
+        }
+
+        function renderSessions() {
+          const sessions = getTodaySessions();
+          sessionsList.replaceChildren();
+
+          sessions.forEach((session) => {
+            const item = document.createElement("li");
+            item.textContent = `Started at ${new Date(session).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+            sessionsList.appendChild(item);
+          });
+
+          noSessions.hidden = sessions.length > 0;
+        }
+
+        renderSessions();
+      })();
+
+      (() => {
+        const scoreElement = document.getElementById("dailyScore");
+        const scoreDisplay = document.getElementById("scoreDisplay");
+        const qualityElement = document.getElementById("dailyQualityText");
+
+        function updateQuality() {
+          const rawText = scoreElement.textContent.trim();
+          const score = Number(rawText);
+
+          if (!Number.isFinite(score)) {
+            scoreDisplay.textContent = "50";
+            qualityElement.textContent = "Balanced";
+            return;
+          }
+
+          scoreDisplay.textContent = String(score);
+
+          if (score > 80) qualityElement.textContent = "Overproductive! Very berry well.";
+          else if (score >= 70) qualityElement.textContent = "Very productive";
+          else if (score >= 60) qualityElement.textContent = "Productive";
+          else if (score >= 50) qualityElement.textContent = "Balanced";
+          else if (score >= 40) qualityElement.textContent = "A little underactive";
+          else if (score >= 20) qualityElement.textContent = "Underactive";
+          else qualityElement.textContent = "Very underactive—do better :/";
+        }
+
+        const observer = new MutationObserver(updateQuality);
+        observer.observe(scoreElement, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+
+        updateQuality();
+      })();
+
+      (() => {
+        const workDurationInput = document.getElementById("workDuration");
+        const restDurationInput = document.getElementById("restDuration");
+        const startWorkButton = document.getElementById("startWorkTimer");
+        const startRestButton = document.getElementById("startRestTimer");
+        const display = document.getElementById("workTimerDisplay");
+        let intervalId = null;
+
+        function formatTime(totalSeconds) {
+          return `${String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:${String(totalSeconds % 60).padStart(2, "0")}`;
+        }
+
+        function runTimer(durationMinutes, type) {
+          clearInterval(intervalId);
+          let seconds = Math.max(1, Math.min(480, Number(durationMinutes) || 25)) * 60;
+
+          const render = () => {
+            display.textContent = formatTime(seconds);
+          };
+
+          render();
+
+          intervalId = setInterval(() => {
+            seconds -= 1;
+            render();
+
+            if (seconds <= 0) {
+              clearInterval(intervalId);
+              display.textContent = type === "work" ? "Work done!" : "Rest complete!";
+            }
+          }, 1000);
+        }
+
+        startWorkButton.addEventListener("click", () => {
+          runTimer(workDurationInput.value, "work");
+        });
+
+        startRestButton.addEventListener("click", () => {
+          runTimer(restDurationInput.value, "rest");
+        });
+
+        display.textContent = formatTime(Number(workDurationInput.value || 25) * 60);
+      })();
+    </script>
+  </body>
 </html>
