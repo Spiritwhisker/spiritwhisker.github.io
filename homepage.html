@@ -1,43 +1,124 @@
 <!doctype html>
 <html lang="en">
-<<<<<<< HEAD
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Stop Wasting all of your time Homepage</title>
-        <link rel="stylesheet" href="style.css" />
-        <style>
-            #workTimerMenu { margin-top: 1rem; padding: 1rem; border: 1px solid currentColor; border-radius: 0.5rem; }
-            #workTimerDisplay { font-size: 1.5rem; font-variant-numeric: tabular-nums; }
-        </style>
-    </head>
-    <body>
-        <main class="app">
-            <h1><span id="dailyScore"></span></h1>
-            <p><span id="dailyQualityText">No daily quality score yet.</span></p>
-            <button id="testAddTen" type="button">Since i'm still testing, here's a button.</button>
-            <button id="gameLink" type="button" hidden onclick="location.href='game.html'">Open game</button>
-            <button id="openWorkTimer" type="button" aria-expanded="false" aria-controls="workTimerMenu">Work timer</button>
-            <section id="workTimerMenu" aria-label="Work timer menu" hidden>
-                <label for="workDuration">Work duration (in minutes, not hours, you tryhards)</label>
-                <input id="workDuration" type="number" min="1" max="480" value="25" />
-                <button id="startWorkTimer" type="button">Start Timer</button>
-                <p id="workTimerDisplay" role="timer" aria-live="polite">25:00</p> <!--"Polite" text :/-->
-            </section>
-        </main>
-        
-        <script src="script.js"></script>
-        <script>
-            (() => {
-                const scoreElement = document.getElementById("dailyScore");
-                const qualityElement = document.getElementById("dailyQualityText");
-                const gameButton = document.getElementById("gameLink");
-=======
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stop Wasting Your Time</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #111827;
+        color: #f9fafb;
+      }
+
+      .app {
+        width: min(92vw, 720px);
+        padding: 2rem 1.25rem 3rem;
+      }
+
+      .hero {
+        margin-bottom: 1rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.72rem;
+        opacity: 0.75;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 8vw, 4rem);
+      }
+
+      .status-card,
+      .timer-card,
+      .history-card {
+        margin-top: 1.25rem;
+        padding: 1rem 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .status-score {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      .status-text {
+        margin: 0.5rem 0 0;
+      }
+
+      .timer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.65rem 0.7rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.15);
+        color: inherit;
+      }
+
+      .timer-display {
+        margin-top: 1rem;
+        font-size: clamp(1.8rem, 5vw, 2.6rem);
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+
+      button {
+        padding: 0.7rem 1rem;
+        border: 0;
+        border-radius: 0.5rem;
+        background: #4f46e5;
+        color: white;
+        cursor: pointer;
+      }
+
+      button.secondary {
+        background: rgba(255, 255, 255, 0.14);
+      }
+
+      #todaySessions {
+        margin: 0.75rem 0 0;
+        padding-left: 1.25rem;
+      }
+
+      #noSessions {
+        margin: 0.75rem 0 0;
+      }
+    </style>
   </head>
   <body>
     <main class="app">
@@ -45,7 +126,6 @@
         <p class="eyebrow">Daily progress</p>
         <h1><span id="dailyScore">50</span></h1>
       </header>
->>>>>>> 028071e69e80da326e076823a16423f07ee92105
 
       <section class="status-card" aria-live="polite">
         <div class="status-score" id="scoreDisplay">50</div>
@@ -164,7 +244,9 @@
         let intervalId = null;
 
         function formatTime(totalSeconds) {
-          return `${String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:${String(totalSeconds % 60).padStart(2, "0")}`;
+          const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+          const seconds = String(totalSeconds % 60).padStart(2, "0");
+          return `${minutes}:${seconds}`;
         }
 
         function runTimer(durationMinutes, type) {
