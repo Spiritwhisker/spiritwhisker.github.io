@@ -11,11 +11,16 @@
         font-family: Arial, sans-serif;
       }
 
+      /* Use the site's theme by default. When a rest timer is active, add .rest-mode to body */
       body {
         margin: 0;
         min-height: 100vh;
         display: grid;
         place-items: center;
+      }
+
+      body.rest-mode {
+        /* Rest mode uses a dark background so the page is visually distinct */
         background: #111827;
         color: #f9fafb;
       }
@@ -196,6 +201,10 @@
           noSessions.hidden = sessions.length > 0;
         }
 
+        // expose so other script blocks can update and re-render
+        window.renderSessions = renderSessions;
+        window.sessionKey = sessionKey;
+
         renderSessions();
       })();
 
@@ -249,9 +258,32 @@
           return `${minutes}:${seconds}`;
         }
 
+        function recordSessionStart() {
+          try {
+            const now = new Date();
+            const todayKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+            const saved = JSON.parse(localStorage.getItem(window.sessionKey) || "{}");
+            if (saved.date !== todayKey || !Array.isArray(saved.sessions)) {
+              saved.date = todayKey;
+              saved.sessions = [];
+            }
+            saved.sessions.push(Date.now());
+            localStorage.setItem(window.sessionKey, JSON.stringify(saved));
+            // re-render the list if available
+            if (typeof window.renderSessions === 'function') window.renderSessions();
+          } catch (e) {
+            console.error('Failed to record session start', e);
+          }
+        }
+
         function runTimer(durationMinutes, type) {
           clearInterval(intervalId);
-          let seconds = Math.max(1, Math.min(480, Number(durationMinutes) || 25)) * 60;
+          const initialSeconds = Math.max(1, Math.min(480, Number(durationMinutes) || 25)) * 60;
+          let seconds = initialSeconds;
+
+          // toggle rest-mode class so background reflects rest state
+          if (type === 'rest') document.body.classList.add('rest-mode');
+          else document.body.classList.remove('rest-mode');
 
           const render = () => {
             display.textContent = formatTime(seconds);
@@ -265,16 +297,35 @@
 
             if (seconds <= 0) {
               clearInterval(intervalId);
-              display.textContent = type === "work" ? "Work done!" : "Rest complete!";
+
+              // Save timer/session info so review.html can pick it up
+              try {
+                localStorage.setItem('sessionDuration', String(initialSeconds));
+                localStorage.setItem('timerDuration', String(initialSeconds));
+                localStorage.setItem('workSessionDuration', String(initialSeconds));
+              } catch (e) {
+                console.error('Failed to save session duration', e);
+              }
+
+              if (type === "work") {
+                // after a work session finish, go to review where the user rates the session
+                window.location.href = 'review.html';
+              } else {
+                display.textContent = 'Rest complete!';
+                // remove rest-mode shortly after rest ends
+                setTimeout(() => document.body.classList.remove('rest-mode'), 1800);
+              }
             }
           }, 1000);
         }
 
         startWorkButton.addEventListener("click", () => {
+          recordSessionStart();
           runTimer(workDurationInput.value, "work");
         });
 
         startRestButton.addEventListener("click", () => {
+          recordSessionStart();
           runTimer(restDurationInput.value, "rest");
         });
 

@@ -2,9 +2,9 @@
 const style = document.createElement("style");
 style.textContent = `
   button { position: relative; overflow: hidden; background-image: none !important;}
-  button::after { content: ""; position: absolute; inset: 50%; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; opacity: 0; transform: translate(-50%, -50%) scale(1);}
-  button.ripple::after { animation: button-ripple .45s ease-out;}
-  @keyframes button-ripple { from { opacity: .45; transform: translate(-50%, -50%) scale(1);} to { opacity: 0; transform: translate(-50%, -50%) scale(12);}}
+  button::after { content: ""; position: absolute; inset: 50%; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; opacity: 0; transform: translate(-50%, -50%) scale(1);} 
+  button.ripple::after { animation: button-ripple .45s ease-out;} 
+  @keyframes button-ripple { from { opacity: .45; transform: translate(-50%, -50%) scale(1);} to { opacity: 0; transform: translate(-50%, -50%) scale(12);} }
 `;
 
 document.head.appendChild(style);
@@ -16,3 +16,35 @@ document.querySelectorAll("button").forEach((button) => {
     button.classList.add("ripple");
   });
 });
+
+// Daily score helpers (shared across pages)
+function getDailyScore() {
+  const raw = localStorage.getItem("dailyScore");
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : 50;
+}
+
+function setDailyScore(n) {
+  const clamped = Math.max(0, Math.min(100, Math.round(n)));
+  localStorage.setItem("dailyScore", String(clamped));
+  const el = document.getElementById("dailyScore");
+  if (el) el.textContent = String(clamped);
+  return clamped;
+}
+
+function updateDailyScore(delta) {
+  const current = getDailyScore();
+  const next = setDailyScore(current + Number(delta || 0));
+  return next;
+}
+
+// Ensure homepage shows stored score when script loads
+document.addEventListener("DOMContentLoaded", () => {
+  const el = document.getElementById("dailyScore");
+  if (el) el.textContent = String(getDailyScore());
+});
+
+// Make functions available to pages that load this script
+window.getDailyScore = getDailyScore;
+window.setDailyScore = setDailyScore;
+window.updateDailyScore = updateDailyScore;

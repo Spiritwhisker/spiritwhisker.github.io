@@ -10,11 +10,19 @@
         <main class="app">
             &nbsp;&nbsp;Hi! I have a lot of things to say, but this is an app for the <a href="https://congressionalappchallenge.us">Congressional App Challenge</a>, in Pennsylvania's 17<sup>th</sup> district.
             &nbsp;&nbsp;This app is made so you stop not not wasting time. You also get a nice little dino game because I want you to have fun and people like games<sup><i>[Citation Needed]</i></sup> and people don't want to do work<sup><i>[Citation Needed]</i></sup>.
-            I know very well that this is true because I have eyes<sup><i>[Citation: The Submission Video]</i></sup> and I can see people.
             <p>So... here is the part where I explain what inspired me to make this app, which I can either go make up a bunch of reasons I made this, or just say, <strong>for the dino game.</strong></p>
             Notes on AI: <strong>I used AI!!! The dino game is completely AI generated, the JavaScript parts are about half AI generated, and I made it code-check my work.</strong> My most fluent coding language is python, but since using python to make a webpage is kinda hard, I resorted to quickly learning some JavaScript.
             <p style="text-decoration: line-through;">oh wait i maybe dont have much to say</p> I mean I DEW
+            <div style="margin-top:1.25rem;">
+                <button id="homeButton" class="primary">Back to Home</button>
+            </div>
         </main>
         
         <script src="script.js"></script>
+        <script>
+            document.getElementById('homeButton').addEventListener('click', () => {
+                location.href = 'homepage.html';
+            });
+        </script>
     </body>
+</html>
