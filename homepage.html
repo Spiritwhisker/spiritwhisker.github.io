@@ -42,7 +42,7 @@
         font-size: clamp(2.5rem, 8vw, 4rem);
       }
 
-      .status-card,
+      .status-card, /* You happy now? */
       .timer-card,
       .history-card {
         margin-top: 1.25rem;
@@ -265,7 +265,7 @@
 
             if (seconds <= 0) {
               clearInterval(intervalId);
-              display.textContent = type === "work" ? "Work done!" : "Rest complete!";
+              display.textContent = type === "work" ? "Work done!" : "Rest complete!"; // Like yay it works!
             }
           }, 1000);
         }
@@ -274,7 +274,7 @@
           runTimer(workDurationInput.value, "work");
         });
 
-        startRestButton.addEventListener("click", () => {
+        startRestButton.addEventListener("click", () => { // secret message can you find me?
           runTimer(restDurationInput.value, "rest");
         });
 
