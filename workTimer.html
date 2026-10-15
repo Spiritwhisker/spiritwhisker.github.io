@@ -39,6 +39,14 @@
 			running = false;
 			clearInterval(interval);
 			start.textContent = 'Start';
+			// Save session duration for review page (store seconds)
+			try {
+				localStorage.setItem('sessionDuration', String(durationMinutes * 60));
+				localStorage.setItem('timerDuration', String(durationMinutes * 60));
+				localStorage.setItem('workSessionDuration', String(durationMinutes * 60));
+			} catch (e) {
+				console.error('Failed to save session duration', e);
+			}
 			window.location.href = 'review.html';
 		}
 		
